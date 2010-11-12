@@ -1,0 +1,107 @@
+
+        
+Testing the [tcloudadmin] account [ test_01_admin_query ] the log:
+
+        Request Msg: 
+        <Query>
+            <User>
+                <id>f8d3bd99-8a00-41ed-bccf-da7ae20f564c</id>
+                <Types>
+                    <type>0</type>
+                </Types>
+                <startTime>2010-10-09 19:39:44</startTime>
+                <endTime>2010-10-09 19:39:44</endTime>
+                <limit>10</limit>
+                <offset>0</offset>
+            </User>
+        </Query>
+        
+
+        Response code: 200
+
+        Response msg:<Result>
+  <User>
+    <id>f8d3bd99-8a00-41ed-bccf-da7ae20f564c</id>
+    <Usages/>
+  </User>
+</Result>
+
+
+        
+        
+Testing the [tcloudadmin] account [ test_01_admin_query ] the log:
+
+        Request Msg: 
+        <Query>
+            <User>
+                <id>f8d3bd99-8a00-41ed-bccf-da7ae20f564c</id>
+                <Types>
+                    <type>10</type>
+                </Types>
+                <limit>10</limit>
+            </User>
+        </Query>
+        
+
+        Response code: 200
+
+        Response msg:<Result>
+  <User>
+    <id>f8d3bd99-8a00-41ed-bccf-da7ae20f564c</id>
+    <Usages/>
+  </User>
+</Result>
+
+
+        
+        
+Testing the [tcloudadmin] account [ test_01_admin_query ] the log:
+
+        Request Msg: 
+        <Query>
+            <User>
+                <id>f8d3bd99-8a00-41ed-bccf-da7ae20f564c</id>
+                <Types>
+                    <type>-9999</type>
+                </Types>
+                <limit>10</limit>
+            </User>
+        </Query>
+        
+
+        Response code: 200
+
+        Response msg:<Result>
+  <User>
+    <id>f8d3bd99-8a00-41ed-bccf-da7ae20f564c</id>
+    <Usages/>
+  </User>
+</Result>
+
+
+        
+        
+Testing the [elaster_user] account [ test_02_non_admin_query ] the log:
+
+        Request Msg: 
+        <Query>
+            <User>
+                <id>f8d3bd99-8a00-41ed-bccf-da7ae20f564c</id>
+                <Types>
+                    <type>0</type>
+                </Types>
+                <limit>10</limit>
+                <offset>0</offset>
+            </User>
+        </Query>
+        
+
+        Response code: 500
+
+        Response msg:<?xml version="1.0" encoding="utf-8"?>
+        <ResultCode>
+            <Code>20140001</Code>
+            <Message>Access permission denied by Policy Management.</Message>
+        </ResultCode>
+
+        
