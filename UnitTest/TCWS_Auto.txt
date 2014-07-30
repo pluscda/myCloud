@@ -1,0 +1,228 @@
+* Machine Status
+
+[root@180-master-controller ~] su - postgres -c "psql Elaster"
+[root@180-master-controller ~] SELECT * FROM "MACHINE";
+
+                  ID                  |               NODE_ID                |     HOST_NAME     | STATE | LOC_CAGE | LOC_ROW | LOC_RACK | LOC_SHELF
+--------------------------------------+--------------------------------------+-------------------+-------+----------+---------+----------+-----------
+ 8241ab2f-b367-4c3d-aa41-da84ae5a8d74 | 07e9407a-8d13-11df-83df-a4badb1d2b36 | master-controller |     4 |          |         |          |
+ 17c2f952-971d-4d41-b994-1ea086dc53fa | 51923260-fc6d-4a5e-b140-9839f7670ce6 | tcdsms1           |     4 |          |         |          |
+ e33ed5fd-bc46-4093-ab44-b3949aa94379 | e9be3cd5-8db8-4d2c-b3f3-64f4dff67e96 | tcns1             |     4 |          |         |          |
+ cdb0db1a-4a9c-4a45-aecc-dffc24a90f1a | cc1a422c-6945-441c-97d2-512982396a53 | ncir              |     4 |          |         |          |
+ c1078da0-5d26-4741-9e01-ccaa55fec1f3 | 8ad82b59-fd21-4933-92ea-560bfc6c130f | tcdsms2           |     4 |          |         |          |
+ ba092439-df69-4520-9169-e60ef44b2413 | 40b4113d-ed58-425b-a955-9190484850e6 | tcdsmeta1         |     4 |          |         |          |
+ a13c79bb-ff71-4d2b-bbfe-9b93248a312d | 053c12f3-46f1-4950-8cec-461467626f6a | tcdsmeta2         |     4 |          |         |          |
+ 22e1d716-8ab5-4c68-8aa8-b4b04a5d5a86 | c400c270-6650-47a7-8786-b0437f779d00 | tcdsms3           |     4 |          |         |          |
+
+[root@180-master-controller ~] curl --basic --user "tcloudadmin:tcloud123" --data '<MachineIds><machineId>22e1d716-8ab5-4c68-8aa8-b4b04a5d5a86</machineId></MachineIds>' --header 'Content-Type: application/xml' http://localhost/api/machinestatus.get
+[root@180-master-controller ~] curl --basic --user "tcloudadmin:tcloud123" --data '<MachineIds><machineId>a8bea625-c4d6-48eb-bf30-93fd65f18c70</machineId></MachineIds>' --header 'Content-Type: application/xml' http://localhost/api/machinestatus.get 
+<?xml version="1.0" encoding="utf-8"?>
+<MachineStatuses>
+	<MachineStatus>
+		<status>None</status>
+		<name>None</name>
+		<DiskStatuses>
+			<DiskStatus>
+				<rw>0</rw>
+				<rootPath>all</rootPath>
+				<free>7732.245</free>
+				<rd>0</rd>
+				<used>6.100</used>
+				<total>7738.345</total>
+			</DiskStatus>
+		</DiskStatuses>
+		<NetworkStatuses>
+			<NetworkStatus>
+				<ip>211.76.133.181</ip>
+				<mac>A4:BA:DB:1D:2B:37</mac>
+				<rx>24248.53</rx>
+				<name>teprod</name>
+				<tx>8533.77</tx>
+			</NetworkStatus>
+			<NetworkStatus>
+				<ip>192.168.0.10</ip>
+				<mac>A4:BA:DB:1D:2B:36</mac>
+				<rx>24248.53</rx>
+				<name>tefunc</name>
+				<tx>8533.77</tx>
+			</NetworkStatus>
+		</NetworkStatuses>
+		<cpuUsage>0.10</cpuUsage>
+		<MemStatus>
+			<total>33005192</total>
+			<used>2712268</used>
+			<free>30292924</free>
+		</MemStatus>
+		<id>None</id>
+	</MachineStatus>
+</MachineStatuses>
+
+[root@180-master-controller ~] curl --basic --user "tcloudadmin:tcloud123" --data '<VMIds><vmId>9b328b14-b4e0-45ee-a0f2-78b003388899</vmId></VMIds>' --header 'Content-Type: application/xml' http://localhost/api/vmprofile.get
+<?xml version="1.0" encoding="utf-8"?>
+<VMStatuses>
+	<VMStatus>
+		<status>None</status>
+		<name>None</name>
+		<DiskStatuses>
+			<DiskStatus>
+				<total>7723.726</total>
+				<id></id>
+			</DiskStatus>
+		</DiskStatuses>
+		<NetworkStatuses>
+			<NetworkStatus>
+				<ip>211.76.133.188</ip>
+				<mac>00:30:48:DF:98:93</mac>
+				<name>teprod</name>
+			</NetworkStatus>
+			<NetworkStatus>
+				<ip>192.168.0.116</ip>
+				<mac>00:30:48:DF:98:92</mac>
+				<name>tefunc</name>
+			</NetworkStatus>
+		</NetworkStatuses>
+		<cpuNo>0</cpuNo>
+		<MemStatus>
+			<total>33551536</total>
+		</MemStatus>
+		<id>None</id>
+	</VMStatus>
+</VMStatuses>
+
+[root@180-master-controller ~] curl --basic --user "tcloudadmin:tcloud123" --data '<VMIds><vmId>e33ed5fd-bc46-4093-ab44-b3949aa94379</vmId><vmId>22e1d716-8ab5-4c68-8aa8-b4b04a5d5a86</vmId></VMIds>' --header 'Content-Type: application/xml' http://localhost/api/vmprofile.get
+
+*** Testing Begin ***
+
+1. curl --basic --user "tcloudadmin:tcloud123" --data '<CloneVmRequest><sourceTemplateId>AD35D437-5B8C-11D0-BD3B-00A0C911DF23</sourceTemplateId><dataDiskSize>100G</dataDiskSize></CloneVmRequest>' --header 'Content-Type: application/xml' http://localhost/api/vmfromtemplate.clone
+
+2. curl --basic --user "tcloudadmin:tcloud123" --data '<GetVMRequest><hypervisorId>AD35D437-5B8C-11D0-BD3B-00A0C911DF23</hypervisorId><userId>EA35D437-5B8C-11D0-BD3B-00A0C911DF01</userId></GetVMRequest>' --header 'Content-Type: application/xml' http://localhost/api/vm.list
+
+   curl --data '' --basic --user "tcloudadmin:tcloud123" --header 'Content-Type: application/xml' http://localhost/api/vm.list
+<?xml version="1.0" encoding="utf-8"?>
+<VmIds>
+	<vmId>72ef561d-b7a0-4b2e-8669-a6b3c680b0fa</vmId>
+	<vmId>d72341c6-9e9a-415a-bd31-664c213b1fec</vmId>
+	<vmId>5c68ed07-b72c-461a-b319-e494fea0e1f6</vmId>
+	<vmId>dee07642-02e4-4bb5-81c2-d970e1409593</vmId>
+	<vmId>900d2422-dfe5-4fe7-82e2-f3e04f1cc099</vmId>
+	<vmId>a3459ba4-761c-49ce-b951-50e1a37e9ba6</vmId>
+	<vmId>804d7d6a-463a-474d-9896-0f2ebf27194f</vmId>
+	<vmId>fdab5987-95d1-44bf-8b1c-ea76b1f4a511</vmId>
+	<vmId>139c3984-6f76-44b9-8726-e5615ab54b92</vmId>
+	<vmId>ec734473-f738-4921-bdef-42f690b51f81</vmId>
+</VmIds>
+
+3. curl --basic --user "tcloudadmin:tcloud123" --data '<VMIds><vmId>9b328b14-b4e0-45ee-a0f2-78b003388899</vmId></VMIds>' --header 'Content-Type: application/xml' http://localhost/api/vmprofile.get
+
+   curl --basic --user "tcloudadmin:tcloud123" --data '<VMIds><vmId>dee07642-02e4-4bb5-81c2-d970e1409593</vmId><vmId>ec734473-f738-4921-bdef-42f690b51f81</vmId></VMIds>' --header 'Content-Type: application/xml' http://localhost/api/vmprofile.get
+
+4. curl --basic --user "tcloudadmin:tcloud123" --data '<VmProfiles><VmProfile><id>AD35D437-5B8C-11D0-BD3B-00A0C911DF23</id><cpu>2</cpu><mem>8G</mem><Interfaces><Interface><mac>00:11:22:33:44:55</mac><ip>192.168.0.1</ip><networkId>E64CCC22-8E66-4822-9F2F-7FC385645A03</networkId><vlan>2</vlan></Interface></Interfaces></VmProfile></VmProfiles>' --header 'Content-Type: application/xml' http://localhost/api/vm.set
+
+5. curl --basic --user "tcloudadmin:tcloud123" --data '<VmOperationRequest><vmId>027fbea0-b2df-44cc-89e6-73310206939c</vmId></VmOperationRequest>' --header 'Content-Type: application/xml' http://localhost/api/vm.start
+
+6. curl --basic --user "tcloudadmin:tcloud123" --data '<VmOperationRequest><vmId>AD35D437-5B8C-11D0-BD3B-00A0C911DF23</vmId></VmOperationRequest>' --header 'Content-Type: application/xml' http://localhost/api/vm.stop
+
+7. curl --basic --user "tcloudadmin:tcloud123" --data '<VmOperationRequest><vmId>AD35D437-5B8C-11D0-BD3B-00A0C911DF23</vmId></VmOperationRequest>' --header 'Content-Type: application/xml' http://localhost/api/vm.reboot
+
+8. curl --basic --user "tcloudadmin:tcloud123" --data '<VmOperationRequest><vmId>AD35D437-5B8C-11D0-BD3B-00A0C911DF23</vmId></VmOperationRequest>' --header 'Content-Type: application/xml' http://localhost/api/vm.suspend
+
+9. curl --basic --user "tcloudadmin:tcloud123" --data '<VmOperationRequest><vmId>AD35D437-5B8C-11D0-BD3B-00A0C911DF23</vmId></VmOperationRequest>' --header 'Content-Type: application/xml' http://localhost/api/vm.resume
+
+10. curl --basic --user "tcloudadmin:tcloud123" --data '<GetVMRequest><hypervisorId>AD35D437-5B8C-11D0-BD3B-00A0C911DF23</hypervisorId><userId>EA35D437-5B8C-11D0-BD3B-00A0C911DF01</userId></GetVMRequest>' --header 'Content-Type: application/xml' http://localhost/api/template.list
+
+11. curl --basic --user "tcloudadmin:tcloud123" --data '<VMIds><vmId>>027fbea0-b2df-44cc-89e6-73310206939c</vmId></VMIds>' --header 'Content-Type: application/xml' http://localhost/api/vmstatus.get
+
+12. curl --basic --user "tcloudadmin:tcloud123" --data '<Folders><Folder><name>test</name><userId>20de1f68-574c-42e3-96b1-22533a414d1c</userId><groupId>f958f917-1e77-4e3e-b418-07ca48afad1a</groupId><mode>755</mode><quota>20G</quota></Folder></Folders>' --header 'Content-Type: application/xml' http://localhost/api/nsfolder.create
+
+13. curl --basic --user "tcloudadmin:tcloud123" --data '<FolderNames><folderName>test</folderName></FolderNames>' --header 'Content-Type: application/xml' http://localhost/api/nsfolder.delete
+
+12. curl --basic --user "tcloudadmin:tcloud123" --header 'Content-Type: application/xml' http://localhost/api/nsfolder.get
+<?xml version="1.0" encoding="utf-8"?>
+<Folders><Folder><groupId>rrdcached</groupId><userId>rrdcached</userId><quota>21474836480</quota><name>test</name><mode>755</mode></Folder></Folders>
+
+* After set 700
+<?xml version="1.0" encoding="utf-8"?>
+<Folders><Folder><groupId>rrdcached</groupId><userId>rrdcached</userId><quota>21474836480</quota><name>test</name><mode>700</mode></Folder></Folders>
+
+13. curl --basic --user "tcloudadmin:tcloud123" --data '<Folders><Folder><name>test</name><userId>20de1f68-574c-42e3-96b1-22533a414d1c</userId><groupId>f958f917-1e77-4e3e-b418-07ca48afad1a</groupId><mode>700</mode><quota>20G</quota></Folder></Folders>' --header 'Content-Type: application/xml' http://localhost/api/nsfolder.set
+
+14. curl --basic --user "tcloudadmin:tcloud123" --data '<User><name>admin</name><password>12345</password></User>' --header 'Content-Type: application/xml' http://localhost/api/account.auth
+Return:
+<?xml version="1.0" encoding="utf-8"?>
+<Authentication><result>True</result></Authentication>
+
+15. curl --basic --user "tcloudadmin:tcloud123" --data '<User><name>jack</name><password>123456</password></User>' --header 'Content-Type: application/xml' http://localhost/api/account.auth
+Return:
+<?xml version="1.0" encoding="utf-8"?>
+<Authentication><result>False</result></Authentication>
+
+16. curl --basic --user "tcloudadmin:tcloud123" --data '<User><name>jack</name><password>123456</password></User>' --header 'Content-Type: application/xml' http://localhost/api/account.create
+Return:
+<?xml version="1.0" encoding="utf-8"?>
+<User><id>8906dbe4-b1c6-431f-a091-7b7d843320c8</id></User>
+
+17. curl --basic --user "tcloudadmin:tcloud123" --header 'Content-Type: application/xml' http://localhost/api/account.list
+Return:
+<?xml version="1.0" encoding="utf-8"?>
+<Users>
+	<User><password>tcloud123</password><id>f31ed401-a1ec-42aa-91da-0454fd6ebb06</id><name>tcloudadmin</name><groupId>c1025a93-65d5-436c-acee-3e567abc8f74</groupId></User>
+	<User><password>605872835ae97208dfb6c2eb2c67d1df</password><id>6af14612-285c-4345-a214-71cb8549fb96</id><name>tcloud</name><groupId>None</groupId></User>
+	<User><password>123456</password><id>8906dbe4-b1c6-431f-a091-7b7d843320c8</id><name>jack</name><groupId>None</groupId></User>
+</Users>
+
+17. curl --basic --user "tcloudadmin:tcloud123" --header 'Content-Type: application/xml' http://localhost/api/group.list
+Return:
+<?xml version="1.0" encoding="utf-8"?>
+<Groups>
+	<Group><id>c1025a93-65d5-436c-acee-3e567abc8f74</id><name>Administrator</name></Group>
+	<Group><id>3440267d-be24-4e74-8091-d8303f212b52</id><name>User</name></Group>
+	<Group><id>333c4554-e51f-44f5-9c13-5914da5951d1</id><name>admin group0</name></Group>
+	<Group><id>0346600a-112a-49fb-a41b-a151524d1d6a</id><name>aai</name></Group>
+</Groups>
+
+
+*** Still under testing ***
+17. curl --basic --user "tcloudadmin:tcloud123" --data '<Networks><Network><name>VNet100</name><type>3</type><vlan>0</vlan><baseIP>111.111.1.0</baseIP><mask>24</mask><gateway>111.111.1.254</gateway></Network></Networks>' --header 'Content-Type: application/xml' http://localhost/api/netseg.create
+
+18. curl --basic --user "tcloudadmin:tcloud123" --data '<NetworkIds><networkId>1235D437-5B8C-11D0-BD3B-00A0C911DF01</networkId></NetworkIds>' --header 'Content-Type: application/xml' http://localhost/api/netseg.delete
+
+19. curl --basic --user "tcloudadmin:tcloud123" --data '<NetworkIds><networkId>1235D437-5B8C-11D0-BD3B-00A0C911DF01</networkId></NetworkIds>' --header 'Content-Type: application/xml' http://localhost/api/netseg.get
+
+20. curl --basic --user "tcloudadmin:tcloud123" --data '<macPrefix>12:34:56</macPrefix>' --header 'Content-Type: application/xml' http://localhost/api/macprefix.set
+
+21. curl --basic --user "tcloudadmin:tcloud123" --data '<NetworkIds><networkId>1235D437-5B8C-11D0-BD3B-00A0C911DF01</networkId></NetworkIds>' --header 'Content-Type: application/xml' http://localhost/api/netseg.get
+
+***start the Elaster Web Serive Cluster APIs Testing*****
+
+#createNodes
+22.curl --basic --user "tcloudadmin:tcloud123" --data '<Node><type>0</type><VirtualIPs><VirtualIP><ip>10.1.1.11</ip><networkId>01c47915-4777-11d8-bc70-0090272ff725</networkId></VirtualIP><VirtualIP><ip>10.100.1.21</ip><networkId>a1c47915-4777-11d8-bc70-0090272ff7ef</networkId></VirtualIP></VirtualIPs></Node>' --header 'Content-Type: application/xml' http://localhost/api/node.create
+
+#getNodes
+23. curl --basic --user "tcloudadmin:tcloud123" --data '<NodeIds><nodeId>E640F415-539E-4923-96CD-5F093BC250CD</nodeId></NodeIds>' --header 'Content-Type: application/xml' http://localhost/api/node.get
+
+#createMachines
+24. curl --basic --user "tcloudadmin:tcloud123" --data '<Machines><Machine><name>hybird1</name><Interfaces><Interface><mac>00:11:22:33:44:55</mac><ip>192.168.0.1</ip><networkId>E64CCC22-8E66-4822-9F2F-7FC385645A03</networkId></Interface><Interface><mac>00:AA:BB:CC:DD:EE</mac><ip>10.0.0.2</ip><networkId>D64CCC22-8E66-4822-9F2F-7FC385645AA5</networkId></Interface></Interfaces><RoleIds><roleId>1</roleId></RoleIds></Machine></Machines>' --header 'Content-Type: application/xml' http://localhost/api/machine.create
+
+#deleteMachines 
+25. curl --basic --user "tcloudadmin:tcloud123" --data '<MachineIds><machineId>550e8400-e29b-41d4-a716-446655440000</machineId><machineId>550e8400-e29b-41d4-a716-446655440001</machineId></MachineIds>' --header 'Content-Type: application/xml' http://localhost/api/machine.delete
+
+#activateMachines
+26. curl --basic --user "tcloudadmin:tcloud123" --data '<ActivatedMachines><ActivatedMachine><hostname>hybrid1</hostname><nodeId>865606a-649f-11df-a668-00256494eb2f</nodeId><machineId>a65606a-649f-11df-a668-00256494ebd2</machineId></ActivatedMachine><ActivatedMachine><hostname>hybrid2</hostname><nodeId>865606a-649f-11df-a668-00256494eb2e</nodeId><machineId>a65606a-649f-11df-a668-00256494ebd3</machineId></ActivatedMachine></ActivatedMachines>' --header 'Content-Type: application/xml' http://localhost/api/machine.activate
+
+#deactivateMachine
+27. curl --basic --user "tcloudadmin:tcloud123" --data '<DeactivatedMachines><DeactivatedMachine><machineId>a65606a-649f-11df-a668-00256494ebd2</machineId><hostname>hybrid1</hostname></DeactivatedMachine></DeactivatedMachines>' --header 'Content-Type: application/xml' http://localhost/api/machine.deactivate
+
+#getMachine
+28. curl --basic --user "tcloudadmin:tcloud123" --data '<Conditions><States><state>online</state></States><RoleIds><roleId>1</roleId></RoleIds><active>2</active></Conditions>' --header 'Content-Type: application/xml' http://localhost/api/machine.get
+    curl --basic --user "tcloudadmin:tcloud123" --data '<Conditions></Conditions>' --header 'Content-Type: application/xml' http://localhost/api/machine.get
+
+
+#create vm
+29.  curl --basic --user "tcloudadmin:tcloud123" --data '<VmDescriptor><DiskDescriptors><DiskDescriptor><size>10G</size><digest>d41d8cd98f00b204e9800998ecf8427e</digest></DiskDescriptor></DiskDescriptors><VmMetadatas><VmMetadata><name>vm_os</name><value>Linux</value></VmMetadata></VmMetadatas></VmDescriptor>' --header 'Content-Type: application/xml' http://localhost/api/vm.create
+
+#clone vm 2 vm: note vm should not in running statage when clone it
+30. curl --basic --user "tcloudadmin:tcloud123" --data '<CloneVmRequest><sourceVmId>3af53ef1-0a83-4ef3-a1e9-7401b6462712</sourceVmId></CloneVmRequest>' --header 'Content-Type: application/xml' http://localhost/api/vm.clone
+
+# del vm
+31. curl --basic --user "tcloudadmin:tcloud123" --data '<DelVmRequest><sourceVmId>057dc995-4801-4833-8998-0dd2dfffc9db</sourceVmId></DelVmRequest>' --header 'Content-Type: application/xml' http://localhost/api/vm.delete
+

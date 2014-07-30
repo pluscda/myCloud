@@ -1,0 +1,85 @@
+
+        
+Testing the [tcloudadmin] account [ test_01_create_event ] the log:
+
+        Request Msg: 
+        <Events>
+            <Event>
+                <userId>f9575b96-5246-4863-89ce-8fe8c7f3b015</userId>
+                <severity>info</severity>
+                <id>1</id>
+                <message>alexp</message>
+            </Event>
+            <Event>
+                <userId>f9575b96-5246-4863-89ce-8fe8c7f3b015</userId>
+                <severity>error</severity>
+                <id>2</id>
+                <message>err</message>
+            </Event>
+        </Events>
+        
+
+        Response code: 200
+
+        Response msg:
+
+        
+        
+Testing the [tcloudadmin] account [ test_02_query_event ] the log:
+
+        Request Msg: 
+        <Conditions>
+            <Levels>
+                <level>ERROR</level>
+                <level>INFO</level>
+            </Levels>
+            <isRead>0</isRead>
+            <startTime>2010-10-14 18:38:15</startTime>
+            <endTime>2010-10-14 19:38:15</endTime>
+            <limit>10</limit>
+            <offset>0</offset>
+        </Conditions>
+
+        
+
+        Response code: 200
+
+        Response msg:<Events/>
+
+
+        
+        
+Testing the [tcloudadmin] account [ test_03_set_event2Read ] the log:
+
+        Request Msg: 
+        <EventIds>
+            <eventId>1</eventId>
+            <eventId>2</eventId>
+        </EventIds>
+        
+
+        Response code: 200
+
+        Response msg:
+
+        
+        
+Testing the [tcloudadmin] account [ test_09_purge_event ] the log:
+
+        Request Msg: 
+        <Conditions>
+            <userId>0365b733-c3b0-446b-9cc0-9eaa92a56afc</userId>
+            <startTime>2010-10-14 18:38:16</startTime>
+            <endTime>2010-10-14 19:38:16</endTime>
+            <Severities>
+                <severity>info</severity>
+                <severity>error</severity>
+            </Severities>
+        </Conditions>
+        
+
+        Response code: 200
+
+        Response msg:
+
+        
