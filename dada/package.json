@@ -1,0 +1,10 @@
+{
+  "name": "alex-demo",
+  "version": "0.0.1",
+  "main": "http://192.168.84.198/dada/index.html",
+  "node-remote": "*",
+  "dependencies": {
+    "node-7z": "^0.3.0",
+    "request": "^2.55.0"
+  }
+}

@@ -2,17 +2,14 @@
 <html>
   <head>
     <title>7zip example</title>
-    <script>
-	  var Zip = require('node-7z'); // Name the class as you want! 
-	 
-	  var myTask = new Zip();
-	  myTask.extractFull('Floormaps.zip', '.');
-	  myTask.extractFull('Floormaps.zip', '.');
-	</script>
+    <script src="drivers/test/test.js"></script><!-- download nodejs based DADA drivers this is just for testing-->
   </head>
   <body>
-    <h1>This page will generate the Floormaps.svg file </h1>
-	<div><a href="file:///Floormaps.svg">View Floormaps</a></div>
+    <h3>In this page background, it uses 7zip to upzip the Floormaps.zip file, then download <a href="node_modules.7z">node_modules.7z</a> from 192.168.84.198 and unzip it</h3>
+	<div><a href="file:///Floormaps.svg">View Floormaps SVG image</a></div>
     <p>We are using node.js <script>document.write(process.version)</script></p>
   </body>
+  <script>
+
+  </script>
 </html>
