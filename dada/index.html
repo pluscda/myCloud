@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>7zip example</title>
+    <script>
+	  var Zip = require('node-7z'); // Name the class as you want! 
+	 
+	  var myTask = new Zip();
+	  myTask.extractFull('Floormaps.zip', '.');
+	  myTask.extractFull('Floormaps.zip', '.');
+	</script>
+  </head>
+  <body>
+    <h1>This page will generate the Floormaps.svg file </h1>
+	<div><a href="file:///Floormaps.svg">View Floormaps</a></div>
+    <p>We are using node.js <script>document.write(process.version)</script></p>
+  </body>
+</html>
