@@ -1,0 +1,15 @@
+REGEDIT4
+
+[HKEY_CLASSES_ROOT\dada]
+@="URL:dada Protocol"
+"URL Protocol"=""
+
+[HKEY_CLASSES_ROOT\dada\DefaultIcon]
+@="\"C:\\Program Files\\dada\\dada.exe\""
+
+[HKEY_CLASSES_ROOT\dada\shell]
+
+[HKEY_CLASSES_ROOT\dada\shell\open]
+
+[HKEY_CLASSES_ROOT\dada\shell\open\command]
+@="\"C:\\Program Files (x86)\\DADA\\nw.exe\" \"%1\" \"%2\" \"%3\" \"%4\" \"%5\" \"%6\" \"%7\" \"%8\" \"%9\""
