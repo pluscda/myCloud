@@ -2,9 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import * as common from './common-module';
 import * as news from './news-module';
-// import * as user from './user-module';
-// import * as auth from './auth-module';
-// import * as bet from './bet-module';
+
 // console log vuex
 import createLogger from 'vuex/dist/logger';
 class Modules {

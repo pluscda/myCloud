@@ -20,7 +20,7 @@ const getters = {
 const actions = {
    async getNewsList({commit,state}, {start,limit}) {
         //console.log('getNewsList start with ' + start);
-        return await window.axios.get(`http://jsonplaceholder.typicode.com/posts?_start=${start}&_limit=${limit}`);
+        return await Vue.axios.get(`http://jsonplaceholder.typicode.com/posts?_start=${start}&_limit=${limit}`);
     },
 
    updateSearchTerm({commit,state}, search) {

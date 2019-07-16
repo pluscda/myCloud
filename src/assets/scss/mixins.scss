@@ -24,30 +24,5 @@
     scrollbar-shadow-color:#0a111a;
 }
 
-@mixin small {
-    @media screen and (max-width: 960px) {
-        @content
-    }
-}
-
-@mixin medium {
-    @media (min-width: 960px) and (max-width: 1440px) {
-        @content
-    }
-}
-
-@mixin large {
-    @media (min-width: 1440px) and (max-width: 1680px) {
-        @content
-    }
-}
-
-
-
-@mixin bigger {
-    @media (min-width: 1680px) {
-        @content
-    }
-}
 
 
