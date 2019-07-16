@@ -1,5 +1,5 @@
 <template>
-  <div :class="clientWidth < viewportBreakpoint ? 'small-header' : 'ampos-header'" >
+  <div :class="clientWidth < viewportBreakpoint ? 'small-header' : 'gain-header'" >
        
     <template v-if="clientWidth > viewportBreakpoint">
         <div class="logo"></div>
@@ -172,7 +172,7 @@
 </style>
 
 <style lang="scss" scoped>
- .ampos-header {
+ .gain-header {
    background:rgb(240, 15, 0) ;
    width:100vw;
    display:flex;

@@ -6,7 +6,7 @@ const localVue = createLocalVue();
 
 localVue.use(Vuex);
 
-describe('AMPOS News Loading Test Suit', () => {
+describe('gain News Loading Test Suit', () => {
   let actions;
   let store;
   let getters;

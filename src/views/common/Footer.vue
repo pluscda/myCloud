@@ -1,5 +1,5 @@
 <template>
-  <div class="ampos-footer" v-if="clientWidth > viewportBreakpoint">
+  <div class="gain-footer" v-if="clientWidth > viewportBreakpoint">
     <div class="footer-grid">
         <div>News</div>
         <div></div>
@@ -10,7 +10,7 @@
         <div>TV</div>
     </div>
     <div></div>
-    <div>Copyright &copy; AMPOS</div>
+    <div>Copyright &copy; gain</div>
   </div>
  
 </template>
@@ -42,7 +42,7 @@
 @media  (max-width: 768px)  { //ipad size
      
 }
-.ampos-footer{
+.gain-footer{
  width:100vw;
  height:85px;
  background:rgb(240, 15, 0) ;

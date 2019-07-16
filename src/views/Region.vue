@@ -1,6 +1,6 @@
 <template>
     <div :class="clientWidth < viewportBreakpoint ? 'small-content' : 'top-content'">
-            <div class="ampos-content" v-if="clientWidth > viewportBreakpoint">
+            <div class="gain-content" v-if="clientWidth > viewportBreakpoint">
                 <div @click="showNewsDetail($event)" v-for="(item, i) in newsList" :key="i" class="news-detail" :data-url="'//unsplash.it/200/200?images=' + i">
                     <h3>Region: {{ item.title.toUpperCase().split(' ').slice(0,3).join(' ')}}</h3>
                     <div class="img" :style="{backgroundImage:'url('+ '//unsplash.it/400/400?images=' + i + ')'}"> </div>    
@@ -8,7 +8,7 @@
                 </div>
             </div>
 
-             <div class="ampos-content" v-if="clientWidth < viewportBreakpoint">
+             <div class="gain-content" v-if="clientWidth < viewportBreakpoint">
                 <div @click="showNewsDetail($event)" v-for="(item, i) in newsList" :key="i" :data-url="'//unsplash.it/200/200?images=' + i" class="news-detail">
                     <div class="left">
                          <div class="img" :style="{backgroundImage:'url('+ '//unsplash.it/400/400?images=' + i + ')'}"> </div> 
@@ -182,7 +182,7 @@ export default {
       background-color:#ccc;
       cursor:not-allowed;
     }
-     .ampos-content {
+     .gain-content {
          display:flex;
          flex-direction: column;
         
@@ -245,7 +245,7 @@ export default {
       background-color:#ccc;
       cursor:not-allowed;
     }
-    .ampos-content {
+    .gain-content {
     display:grid;
     margin-bottom:40px;
     grid-template-columns: repeat(3, minmax(380px, 1fr));

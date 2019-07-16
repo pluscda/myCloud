@@ -1,7 +1,7 @@
 <template>
-  <div id="app" ref="refBody" class="ampos-app">
+  <div id="app" ref="refBody" class="gain-app">
     <router-view name="commonHeader"></router-view>
-       <div id="ampos-content" class="content">
+       <div id="gain-content" class="content">
             <router-view class="main"></router-view>   <!--default router view-->
             <router-view name="commonFooter"></router-view>
        </div>
@@ -51,7 +51,7 @@
         watch: {
             $route(newVal, oldVal) {
                 this.updateSearchTerm('');
-                const container = document.querySelector('#ampos-content');
+                const container = document.querySelector('#gain-content');
                 container.scrollTop = 0;
             },
         }
@@ -89,7 +89,7 @@ body{
   
 }
 
-#ampos-content {
+#gain-content {
     max-height:calc(100vh - 140px );
     overflow-x: hidden;
     position: relative;

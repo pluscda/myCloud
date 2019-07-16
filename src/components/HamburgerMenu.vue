@@ -1,5 +1,5 @@
 <template>
-    <div class="ampos-menu" @click.stop="handle_close">
+    <div class="gain-menu" @click.stop="handle_close">
         <div class="wrapper">
             <div @click="changeView($event,'/', 'News')">News</div>
             <div @click="changeView($event,'/region', 'Regions')">Regions</div>
@@ -46,7 +46,7 @@
 
 <style lang="scss" scoped>
 
-    .ampos-menu{
+    .gain-menu{
         text-align: center;
         position: fixed;
         z-index: 9999;
