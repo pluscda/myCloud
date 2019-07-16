@@ -7,13 +7,13 @@ import Vue from "vue";
 
 
 const state = {
-    searchBy: '',
+    calculateBy: '',
    
 };
 
 // get filter data from state
 const getters = {
-    searchBy: state => state.searchBy,
+    calculateBy: state => state.calculateBy,
 };
 
 // init actions 
@@ -30,7 +30,7 @@ const actions = {
 
 const mutations = {
    updateNewsSearhTerm(state, search) {
-        state.searchBy = search;
+        state.calculateBy = search;
    }
     
 };

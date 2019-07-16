@@ -48,7 +48,7 @@ export default {
   computed: {
       ...mapGetters([
           'viewportBreakpoint',
-          'searchBy',
+          'calculateBy',
       ]),
   },
   methods: {
@@ -99,7 +99,7 @@ export default {
         
   },
   watch: {
-      searchBy(newVal, oldVal) {
+      calculateBy(newVal, oldVal) {
           if(newVal) {
             this.$refs.loadMore.classList.add('hidden');
             let str = newVal.toUpperCase();

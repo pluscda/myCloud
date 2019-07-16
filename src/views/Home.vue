@@ -1,30 +1,5 @@
 <template>
-    <div :class="clientWidth < viewportBreakpoint ? 'small-content' : 'top-content'">
-            <div class="gain-content" v-if="clientWidth > viewportBreakpoint">
-                <div @click="showNewsDetail($event)" v-for="(item, i) in newsList" :key="i" class="news-detail" :data-url="'//unsplash.it/200/200?images=' + i">
-                    <h3>News: {{ item.title.toUpperCase().split(' ').slice(0,3).join(' ')}}</h3>
-                    <div class="img" :style="{backgroundImage:'url('+ '//unsplash.it/400/400?images=' + i + ')'}"> </div>    
-                    <p :data-msg="'Updated: 20 July , 2016, 12:' + (i  > 9 ? i : '0' + i) "> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum distinctio modi non atque, illum quos! Totam, ab amet omnis expedita eveniet, optio nulla sequi cumque eos at voluptatum delectus ullam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquam at aspernatur rem! Nihil, odio vero rem perferendis in, eius animi eum ratione blanditiis quisquam autem repudiandae corporis sed accusamus.</p>
-                </div>
-            </div>
-
-             <div class="gain-content" v-if="clientWidth < viewportBreakpoint">
-                <div @click="showNewsDetail($event)" v-for="(item, i) in newsList" :key="i" :data-url="'//unsplash.it/400/400?images=' + i" class="news-detail">
-                    <div class="left">
-                         <div class="img" :style="{backgroundImage:'url('+ '//unsplash.it/200/200?images=' + i + ')'}"> </div> 
-                    </div>
-                    <div class="right">
-                        <h3>News: {{ item.title.toUpperCase().split(' ').slice(0,3).join(' ')}}</h3>   
-                        <p>{{item.body}}</p>
-                        <h4>{{'Updated: 20 July , 2016, 12:' + (i > 9 ? i : '0' + i)}}</h4>
-                    </div>
-                </div>
-            </div>
-            <div ref="loadMore" class="load-more" @click="loadMore">Load More</div>
-
-            <div class="result" v-show="!newsList.length">No Record Found</div>
-           
-    </div>
+  <p style="margin-left:40px;">{{calculateBy}}  {{ !calculateBy ? '' : '= '  + result }}</p>
 </template>
 
 <script>
@@ -40,6 +15,7 @@ export default {
        clientWidth: 1800,
        totalNews:45,
        allLoaded:false,
+       result: 0,
     }
   },
    components: {
@@ -48,7 +24,7 @@ export default {
   computed: {
       ...mapGetters([
           'viewportBreakpoint',
-          'searchBy',
+          'calculateBy',
       ]),
   },
   methods: {
@@ -57,70 +33,74 @@ export default {
           
       ]),
       ...mapActions([
-        'getNewsList'
+        
       ]),
 
-      showNewsDetail(evt) {
-          const url = evt.target.dataset.url ;
-          this.openNewTab(url);
-      },
-      async loadMore() {
-        if(this.allLoaded) return;
-        this.page.start += 15;
-        if (this.page.start >= this.totalNews) {
-            this.$refs.loadMore.classList.add('disable');
-            this.allLoaded = true;
+     calculate(num1, num2, operator) {
+        num1 = parseFloat(num1);
+
+        if (isNaN(num1)) {
+            this.result = 'First parameter invalid. Must be a interger.';
         }
-        try{
-            let map = await this.getNewsList(this.page);
-            if(!map) return;
-            this.newsList = [...this.newsList, ...map];
-        }catch(e) {
-            console.log(e);
+
+        num2 = parseFloat(num2);
+       
+        if (isNaN(num2)) {
+            this.result = 'Second parameter invalid. Must be a interger.';
         }
-        
-      },
+
+        operator = operator.trim(); 
+       // alert( operator);
+
+        if (!/^\+$|^\-$|^\*$|^\/$/.test(operator)) {
+            this.result = 'parameter invalid. Valid are + | - | * | /';
+        }
+
+        let calculations = {
+            '+' : (numb1, numb2) => numb1 + numb2,
+            '-' : (numb1, numb2) => numb1 - numb2,
+            '*' : (numb1, numb2) => numb1 * numb2,
+            '/' : (numb1, numb2) => numb1 / numb2
+        }
+
+        return calculations[operator](num1,num2);
+      }
   },
  
-  async mounted() {
-      try{
-        let map = await this.getNewsList(this.page);
-        this.newsList = map; 
-        this.clientWidth = document.body.clientWidth;
-        this.page.start = 15;
-      }catch(e) {
-          console.log(e);
-      }
-       window.addEventListener('resize', () => {
-            this.clientWidth = document.body.clientWidth;
-       });
+  mounted() {
+     
   },
   beforeDestroy() {
         
   },
   watch: {
-      searchBy(newVal, oldVal) {
+      calculateBy(newVal, oldVal) {
           if(newVal) {
-            this.$refs.loadMore.classList.add('hidden');
-            let str = newVal.toUpperCase();
-            window.setTimeout(async () => {
-                 let map = await this.getNewsList({start:0, limit:this.totalNews});
-                 this.newsList = map.filter( s => s.title.toUpperCase().split(' ').slice(0,3).join(' ').includes(str));
-                 if(!this.newsList.length) {
-                    document.querySelector('.result').classList.add('empty-search');
-                 }else {
-                    document.querySelector('.result').classList.remove('empty-search');
-                 }
-            },0);
-           
-          }else {
-            this.page.start = 0;
-            this.allLoaded = false;
-            this.newsList = [];
-            this.loadMore();
-            document.querySelector('.result').classList.remove('empty-search');
-            this.$refs.loadMore.classList.remove('disable');
-            this.$refs.loadMore.classList.remove('hidden');
+              console.log(newVal)
+              let arr = newVal.trim().split('');
+              let i = 0;
+              let op1 = '';
+              let op2 = '';
+              let opt = '';
+              this.result = '';
+              for(i = 0 ; i < arr.length; ++i) {
+                  if(!opt && !isNaN(arr[i]) && !this.result) {
+                     op1 += arr[i];
+                  }else if( /^\+$|^\-$|^\*$|^\/$/.test(arr[i])  && !opt) {
+                     opt = arr[i];
+                     op2 = '';
+                  }else if(!isNaN(arr[i])) {
+                     op2 += arr[i];
+                  }
+                  if(op1 && opt && op2 && isNaN(arr[i+1] )) {
+                      console.log(op2);
+                      op1 =  this.calculate(op1,op2, opt);
+                      opt = op2 = '';
+                      
+                  }
+              }
+              this.result = Math.ceil(op1);
+              
           }
       }
   },

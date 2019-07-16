@@ -5,11 +5,11 @@
         <div class="logo"></div>
         <div class="menu-grid">
             <div @click="changeView($event,'/', 'News')">News</div>
-            <div @click="changeView($event,'/region', 'Regions')">Regions</div>
-            <div @click="changeView($event,'/video', 'Video')">Video</div>
-            <div @click="changeView($event,'/tv', 'TV')">TV</div>
+            <div >Regions</div>
+            <div >Video</div>
+            <div >TV</div>
             <div class="search-div">
-                <input ref="s1" maxlength="62" placeholder="Search"  @keyup="lodashDebounce($event,searchBy)" @keydown.enter="searchBy($event)">
+                <input ref="s1" maxlength="62" placeholder="Search"   @keydown.enter="calculateBy($event)">
             </div>
         </div>
     </template>
@@ -24,7 +24,7 @@
             </button>
         </div>
         <div class="bottom search-div">
-                <input ref="s2" maxlength="62" placeholder="Search" @keyup="lodashDebounce($event,searchBy)" @keydown.enter="searchBy($event)">
+                <input ref="s2" maxlength="62" placeholder="Search"  @keydown.enter="calculateBy($event)">
         </div>
     </template>
   </div>
@@ -61,7 +61,7 @@
        showMenu() {
           this.setMenuShow();
        },
-       searchBy(evt) {
+       calculateBy(evt) {
           this.updateSearchTerm(evt.target.value);
        },
        changeView(evt,path, name){

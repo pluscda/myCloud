@@ -18,7 +18,7 @@ describe('gain News Loading Test Suit', () => {
     }
     getters ={
         viewportBreakpoint: () => 314, // small screen
-        searchBy: () => 'a',
+        calculateBy: () => 'a',
     }
     store = new Vuex.Store({
       actions,

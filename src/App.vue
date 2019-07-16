@@ -3,7 +3,7 @@
     <router-view name="commonHeader"></router-view>
        <div id="gain-content" class="content">
             <router-view class="main"></router-view>   <!--default router view-->
-            <router-view name="commonFooter"></router-view>
+            
        </div>
       <HamburgerMenuCompoment v-if="isMobileMenuShow"></HamburgerMenuCompoment>
   </div>
