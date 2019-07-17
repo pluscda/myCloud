@@ -6,6 +6,7 @@
 import { mapGetters, mapActions , mapMutations } from 'vuex';
 import bus from '@/assets/util/bus'
 import openNewTab from '@/mixins/openNewTab';
+import { normalize } from 'path';
 export default {
   mixins: [openNewTab],
   data() {
@@ -35,76 +36,135 @@ export default {
       ...mapActions([
         
       ]),
-
-     calculate(num1, num2, operator) {
-        num1 = parseFloat(num1);
-
-        if (isNaN(num1)) {
-            this.result = 'First parameter invalid. Must be a interger.';
+      reorganizeArray(array){
+        var reorganized = [];
+        var k = -1;
+        while(++k < array.length){
+            if(array[k] !== false) reorganized.push(array[k]);
         }
+        return reorganized;
+      },
+      doTheMath(op, array){
+        let t1 = op-1;
+        let t2 = op+1;
 
-        num2 = parseFloat(num2);
-       
-        if (isNaN(num2)) {
-            this.result = 'Second parameter invalid. Must be a interger.';
-        }
+        switch(array[op]){
 
-        operator = operator.trim(); 
-       // alert( operator);
+            case '*':
+                array[t1] = parseFloat(array[t1]) * parseFloat(array[t2]);
+                break;
 
-        if (!/^\+$|^\-$|^\*$|^\/$/.test(operator)) {
-            this.result = 'parameter invalid. Valid are + | - | * | /';
-        }
+            case '/':
+                array[t1] = parseFloat(array[t1]) / parseFloat(array[t2]);
+                break;
+            case '+':
+                array[t1] = parseFloat(array[t1]) + parseFloat(array[t2]);
+                break;
+            case '-':
+                        array[t1] = parseFloat(array[t1]) - parseFloat(array[t2]);
+                        break;
+            }
 
-        let calculations = {
-            '+' : (numb1, numb2) => numb1 + numb2,
-            '-' : (numb1, numb2) => numb1 - numb2,
-            '*' : (numb1, numb2) => numb1 * numb2,
-            '/' : (numb1, numb2) => numb1 / numb2
-        }
+            array[op] = false;
+            array[t2] = false;
 
-        return calculations[operator](num1,num2);
-      }
-  },
- 
-  mounted() {
-     
-  },
-  beforeDestroy() {
+            return this.reorganizeArray(array);
+
+    },
+    calculate(string){
+
+        // break the string into numbers and operators
+        var cArray = (string.match(/([0-9]+)|\+|-|\*|\//g));
+        let i = -1;
+
+        if(!cArray || cArray.length == 1) return string;
         
+        // multiplications
+        while(i++ < cArray.length - 1){
+
+            if(cArray[i] == '*'){
+                cArray = this.doTheMath(i, cArray);
+                i = i-1;
+            }
+
+        }
+
+        // divisions
+        i = -1;
+        while(i++ < cArray.length - 1){
+
+            if(cArray[i] == '/'){
+                cArray = this.doTheMath(i, cArray);
+                i--;
+            }
+
+        }
+
+        // sum/substract
+        i = -1;
+        while(i++ < cArray.length - 1){
+
+            if(cArray[i] == '+'){
+                cArray = this.doTheMath(i, cArray);
+                i--;
+            }
+
+            if(cArray[i] == '-'){
+                cArray = this.doTheMath(i, cArray);
+                i--;
+            }
+
+        }
+
+        return cArray[0];
+
+    },
+    calculateFull(str){
+        // clean the string from spaces
+        str = str.replace(/ /g,'');
+
+        // declare the final result variable
+        var result = str;
+
+        // brake the strings there are between parentheses
+        var subCalculations = str.match(/\(([^()]+)\)/gmi); 
+        var subCalc;
+
+        if(!subCalculations)
+            return this.calculate(str);
+
+        for(let k = 0; k < subCalculations.length; k++){
+            subCalc = subCalculations[k].replace(/\(|\)/g, '');
+            console.log('Replacing (' + subCalc + ') by ' + this.calculate(subCalc));
+            result = result.replace('('+subCalc+')', this.calculate(subCalc));
+        }
+
+        // verify if the string still have parentheses and recursively resolves them
+        if(result.indexOf('(') >= 0)
+            return this.calculateFull(result);
+
+        console.log("String after subcalculations are done: " + result);
+        return this.calculate(result);
+        
+    },
   },
-  watch: {
-      calculateBy(newVal, oldVal) {
-          if(newVal) {
-              console.log(newVal)
-              let arr = newVal.trim().split('');
-              let i = 0;
-              let op1 = '';
-              let op2 = '';
-              let opt = '';
-              this.result = '';
-              for(i = 0 ; i < arr.length; ++i) {
-                  if(!opt && !isNaN(arr[i]) && !this.result) {
-                     op1 += arr[i];
-                  }else if( /^\+$|^\-$|^\*$|^\/$/.test(arr[i])  && !opt) {
-                     opt = arr[i];
-                     op2 = '';
-                  }else if(!isNaN(arr[i])) {
-                     op2 += arr[i];
-                  }
-                  if(op1 && opt && op2 && isNaN(arr[i+1] )) {
-                      console.log(op2);
-                      op1 =  this.calculate(op1,op2, opt);
-                      opt = op2 = '';
-                      
-                  }
-              }
-              this.result = Math.ceil(op1);
-              
-          }
-      }
-  },
-  name: 'News',
+
+    mounted() {
+        
+    },
+    beforeDestroy() {
+            
+    },
+    watch: {
+        calculateBy(newVal, oldVal) {
+            if(newVal) {
+                this.result = this.calculateFull(newVal);
+            }else{
+                this.result = '';
+            }
+        }
+    },
+    name: 'calc'
 }
 </script>
 
